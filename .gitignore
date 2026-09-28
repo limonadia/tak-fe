@@ -4,6 +4,7 @@
 *~
 *.sw[mnpcod]
 .tmp
+temp/
 *.tmp
 *.tmp.*
 UserInterfaceState.xcuserstate
@@ -11,7 +12,9 @@ $RECYCLE.BIN/
 
 *.log
 log.txt
-
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
 
 /.sourcemaps
 /.versions
@@ -22,6 +25,9 @@ log.txt
 /www
 /platforms
 /plugins
+
+# Local environment
+*.local
 
 # Compiled output
 /dist
@@ -51,7 +57,14 @@ yarn-error.log
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+.idea/
 
+# Coverage
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Miscellaneous
 /.angular
@@ -68,3 +81,20 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Angular build output
+dist/
+.angular/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Capacitor
+android/.gradle/
+android/build/
+android/captures/
+android/.cxx/
+ios/App/Pods/
+ios/App/build/
