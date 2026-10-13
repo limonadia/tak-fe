@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <app-navbar title="{{ 'profile.title' | translate }}"></app-navbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div>
+  <ion-button fill="clear" slot="end" (click)="switchLanguage('en')">
+    English 
+  </ion-button>
+  <ion-button fill="clear" slot="end" (click)="switchLanguage('al')">
+    Albanian
+  </ion-button>
+  </div>
+
+  <ion-list-header>
+    <ion-label>
+      Appearance
+    </ion-label>
+  </ion-list-header>
+
+  <ion-radio-group [value]="themeService.mode" (ionChange)="changeTheme($event.detail.value)">
+    <ion-item>
+      <ion-radio value="light">Light</ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-radio value="dark">Dark</ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-content>
