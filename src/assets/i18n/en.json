@@ -1,5 +1,40 @@
 {
     "profile": {
-        "title": "Profile"
+        "title": "Profile",
+        "language": "Language",
+        "connections": "Connections",
+        "theme": "Theme",
+        "analytics": "Analytics",
+        "blocked-users": "Blocked Users",
+        "change-email": "Change Email",
+        "change-password": "Change Password",
+        "logout": "Logout",
+        "delete-account": "Delete Account",
+        "select-language": "Select Language",
+        "english": "English",
+        "albanian": "Albanian",
+        "edit-profile": "Edit Profile",
+        "select-theme": "Select Theme",
+        "light": "Light",
+        "dark": "Dark"
+    }, 
+    "discover": {
+        "title": "Discover"
+    },
+    "home": {
+        "title": "Home",
+        "participating": "Participating",
+        "hosting": "Hosting"
+    },
+    "events": {
+        "title": "Events"
+    },
+    "groups": {
+        "title": "Groups"
+    },
+    "components": {
+        "view-all": "View All",
+        "event-details": "Event Details",
+        "group-details": "Group Details"
     }
 }

@@ -1,16 +1,55 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
+  <app-navbar title="{{ 'events.title' | translate }}"></app-navbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="flex w-full justify-between gap-3">
+    <ion-button class="w-1/2" id="open-sort-modal">Sort</ion-button>
+    <ion-button class="w-1/2" id="open-filter-modal">Filter</ion-button>
+  </div>
+  <ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
 
+  <div>
+    @for (card of results; track card){
+      <app-card (click)="goTo(card.id)" [cardTitle]="card.cardTitle" [cardSubtitle]="card.cardSubtitle" [cardDescription]="card.cardDescription"></app-card>
+    }
+  </div>
+
+  <ion-modal #sortModal trigger="open-sort-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel('sortModal')">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Welcome</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm('sortModal')" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        sortingModal
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal #filterModal trigger="open-filter-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel('filterModal')">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Welcome</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm('filterModal')" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        filterModal
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

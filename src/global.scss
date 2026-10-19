@@ -50,3 +50,14 @@
 ion-item {
   --transition: none;
 }
+
+.no-last-line{
+  ion-item:last-child {
+    --border-width: 0;
+    border-bottom: none;
+  }
+}
+
+ion-header ion-back-button{
+  display: inline-block !important;
+}

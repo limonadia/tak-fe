@@ -1,16 +1,30 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
+  <app-navbar title="{{ 'home.title' | translate }}"></app-navbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-segment [(ngModel)]="selectedSegment">
+    <ion-segment-button value="participating">
+      <ion-label>{{ 'home.participating' | translate}}</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="hosting">
+      <ion-label>{{ 'home.hosting' | translate}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  @if (selectedSegment === 'participating') {
+    @for (item of participatingCarousels; track item) {
+      <app-carousel [carouselData]="item" (buttonClick)="goTo(item.id)"></app-carousel>
+    } @empty {
+      
+    }
+  } @else if (selectedSegment === 'hosting') {
+    @for (item of hostingCarousels; track item) {
+      <app-carousel [carouselData]="item" (buttonClick)="goTo(item.id)"></app-carousel>
+    } @empty {
+      
+    }
+  }
 
 </ion-content>

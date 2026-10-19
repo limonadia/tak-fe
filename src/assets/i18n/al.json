@@ -1,5 +1,40 @@
 {
     "profile": {
-        "title": "Profili"
+        "title": "Profili",
+        "language": "Gjuha",
+        "connections": "Miqësitë",
+        "theme": "Paraqitja",
+        "analytics": "Analitika",
+        "blocked-users": "Përdoruesit e bllokuar",
+        "change-email": "Ndrysho Emailin",
+        "change-password": "Ndrysho Fjalëkalimin",
+        "logout": "Dil",
+        "delete-account": "Fshij Llogarinë",
+        "select-language": "Zgjidh Gjuhën",
+        "english": "Anglisht",
+        "albanian": "Shqip",
+        "edit-profile": "Ndrysho Profilin",
+        "select-theme": "Zgjidh Paraqitjen",
+        "light": "E Lehtë",
+        "dark": "E Errët"
+    },
+    "discover": {
+        "title": "Eksploro"
+    },
+    "home": {
+        "title": "Shtëpia",
+        "participating": "Pjesëmarrës",
+        "hosting": "Krijues"
+    },
+    "events": {
+        "title": "Eventet"
+    },
+    "groups": {
+        "title": "Grupet"
+    },
+    "components": {
+        "view-all": "Shiko të gjitha",
+        "event-details": "Detajet e Eventit",
+        "group-details": "Detajet e Grupit"
     }
 }

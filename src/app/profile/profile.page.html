@@ -3,27 +3,38 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div>
-  <ion-button fill="clear" slot="end" (click)="switchLanguage('en')">
-    English 
-  </ion-button>
-  <ion-button fill="clear" slot="end" (click)="switchLanguage('al')">
-    Albanian
-  </ion-button>
+
+  <div class="flex justify-between w-full items-center gap-3 ion-padding">
+    <ion-avatar class="w-1/3 h-24">
+      <img alt="Profile Picture" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <div class="flex flex-col w-2/3 gap-1">
+      <ion-label>
+        Profile Name
+      </ion-label>
+      <ion-label>
+        Profile Email
+      </ion-label>
+      <ion-button color="primary" (click)="navigateTo('edit-profile')">
+        {{ 'profile.edit-profile' | translate }}
+      </ion-button>
+    </div>
   </div>
 
-  <ion-list-header>
-    <ion-label>
-      Appearance
-    </ion-label>
-  </ion-list-header>
-
-  <ion-radio-group [value]="themeService.mode" (ionChange)="changeTheme($event.detail.value)">
-    <ion-item>
-      <ion-radio value="light">Light</ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-radio value="dark">Dark</ion-radio>
-    </ion-item>
-  </ion-radio-group>
+  <div class="mt-4">
+    <ion-list lines="full" class="no-last-line">
+      @for (item of listItems; track item.title; let last = $last) {
+        <ion-item>
+          @if (last) {
+            <ion-label color="danger" (click)="navigateTo(item.goTo)">{{ item.title | translate }}</ion-label>
+          } @else {
+            <ion-label>{{ item.title | translate }}</ion-label>
+            <ion-button fill="clear" (click)="navigateTo(item.goTo)" slot="end">
+              <ion-icon name="arrow-forward-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          }
+        </ion-item>
+      }
+    </ion-list>
+  </div>
 </ion-content>

@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="w-full flex flex-row">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+      <ion-title>{{ 'profile.select-theme' | translate }}</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-radio-group [value]="themeService.mode" (ionChange)="changeTheme($event.detail.value)">
+    <ion-item>
+      <ion-radio value="light">{{ 'profile.light' | translate }}</ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-radio value="dark">{{ 'profile.dark' | translate }}</ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-content>

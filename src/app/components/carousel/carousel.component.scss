@@ -1,0 +1,13 @@
+.carousel-buttons{
+    position: relative;
+    top: -150px;
+}
+
+.my-button {
+  opacity: 0.4;
+  transition: opacity 250ms ease-in-out;
+}
+
+.my-button.is-hovered {
+  opacity: 1;
+}

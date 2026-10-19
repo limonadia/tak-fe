@@ -1,0 +1,29 @@
+<div class="flex items-center justify-between">
+  <ion-label>{{carouselData.title}}</ion-label>
+  <ion-button fill="clear" (click)="onButtonClick()">
+    {{ 'components.view-all' | translate}}
+    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+  </ion-button>
+</div>
+
+<div #carouselWrapper (mouseleave)="onMouseLeave()" (pointerdown)="showControls()" (pointerup)="showControls()">
+  <p-carousel class="max-w-xl mx-auto" align="center" [loop]="true" [slidesPerPage]="1.75">
+    <p-carousel-content class="h-60">
+      @for (item of carouselData.items; track item) {
+        <p-carousel-item>
+          <div class="h-full text-5xl font-semibold bg-surface-50 dark:bg-surface-950 text-surface-950 dark:text-surface-0 flex flex-col items-center justify-center gap-6 rounded-xl border border-surface">
+            <span>{{ item }}</span>
+          </div>
+        </p-carousel-item>
+      }
+    </p-carousel-content>
+    <div class="carousel-buttons flex justify-between items-center mt-4 w-full">
+      <ion-button pCarouselPrev color="primary" shape="round" class="my-button" [ngClass]="{ 'is-hovered': isHovered }">
+        <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button pCarouselNext color="primary" shape="round" class="my-button" [ngClass]="{ 'is-hovered': isHovered }">
+        <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </p-carousel>
+</div>
