@@ -1,0 +1,201 @@
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonContent, IonTitle, IonCard, IonCardContent, IonLabel, IonInput, IonAvatar, IonInputPasswordToggle, IonNote, IonIcon, IonText, IonButton, IonTextarea } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MatStepperModule } from '@angular/material/stepper';
+import { passwordMatchValidator } from '../../validators/password-match.validator';
+import { chevronForwardOutline, chevronBackOutline, trashOutline, createOutline } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { MultipleSelectionComponent } from '../../components/multiple-selection/multiple-selection.component';
+import { Chip } from '../../models/chip.model';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
+import { InterestsService } from '../../services/interests.service';
+
+declare var google: any;
+@Component({
+  selector: 'app-signup',
+  templateUrl: './signup.page.html',
+  styleUrls: ['./signup.page.scss'],
+  imports: [IonContent, IonTitle, CommonModule, FormsModule, IonCard, IonButton, IonAvatar, IonCardContent, MultipleSelectionComponent, ReactiveFormsModule, IonTextarea, TranslatePipe, IonText, IonLabel, MatStepperModule, IonInput, IonNote, IonInputPasswordToggle, IonIcon]
+})
+export class SignupPage implements OnInit {
+  @ViewChild('cityInput') cityInput!: IonInput;
+
+  signupForm = this.fb.group({
+    formArray: this.fb.array([
+      this.fb.group({
+        email: ['', { validators: [Validators.required, Validators.email] }],
+        password: ['', { validators: [Validators.required, Validators.minLength(8)] }],
+        confirmPassword: ['', { validators: [Validators.required] }],
+      }, { validators: passwordMatchValidator }),
+      this.fb.group({
+        firstName: ['', { validators: [Validators.required] }],
+        lastName: ['', { validators: [Validators.required] }],
+        city: ['', { validators: [Validators.required] }],
+        birthday: ['', { validators: [Validators.required] }],
+      }),
+      this.fb.group({
+        profilePicture: [''],
+        description: ['', { validators: [Validators.required, Validators.minLength(20)] }]
+      }),
+      this.fb.group({
+        preferences: [[], { validators: [Validators.required, Validators.minLength(1)] }]
+      })
+    ])
+  })
+
+  selectedImage: File | null = null;
+  imagePreview: string | null = null;
+  chips: Chip[] = [];
+  errorText: string = '';
+  showError: boolean = false;
+
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private ngZone: NgZone,
+    private authService: AuthService,
+    private interestsService: InterestsService ) {
+    addIcons({ chevronBackOutline, chevronForwardOutline, trashOutline, createOutline });
+  }
+
+  ngOnInit() {
+    this.loadChips();
+  }
+
+  async ngAfterViewInit() {
+    await this.waitForGoogleMaps();
+
+    const input = await this.cityInput.getInputElement();
+
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ['(cities)'],
+      fields: ['name', 'place_id']
+    });
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+
+      this.ngZone.run(() => {
+        this.signupForm.get('formArray.1.city')?.setValue(place.name ?? '');
+      });
+    });
+  }
+
+  async loadChips(){
+    let interests = await this.interestsService.getInterests();
+    this.chips = interests.map(interest => ({
+      ...interest,
+      selected: false
+    }))
+  }
+
+  private async waitForGoogleMaps(): Promise<void> {
+    while (!(window as any).google?.maps?.places) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+  }
+
+  login(){
+    this.router.navigate(['/login']);
+  }
+
+  get formArray(): FormArray {
+    return this.signupForm.get('formArray') as FormArray;
+  }
+
+  get accountForm() {
+    return this.formArray.at(0);
+  }
+
+  get personalForm() {
+    return this.formArray.at(1);
+  }
+
+  get aboutForm() {
+    return this.formArray.at(2);
+  }
+
+  get preferencesForm() {
+    return this.formArray.at(3);
+  }
+
+  async onSignup() {
+    if (this.signupForm.invalid){
+      this.signupForm.markAllAsTouched();
+      return;
+    }
+
+    const preferences = this.preferencesForm.get('preferences')?.value.map((chip: Chip) => chip.id);
+    const formData: User = {
+      email: this.accountForm.get('email')?.value,
+      password: this.accountForm.get('password')?.value,
+      firstname: this.personalForm.get('firstName')?.value,
+      lastname: this.personalForm.get('lastName')?.value,
+      city: this.personalForm.get('city')?.value,
+      birthday: `${this.personalForm.get('birthday')?.value}T00:00:00Z`,
+      description: this.aboutForm.get('description')?.value,
+      preferences: preferences
+    }
+
+    const request = new FormData();
+    request.append('user', JSON.stringify(formData));
+
+    if(this.selectedImage) {
+      request.append(
+        'profile_picture',
+        this.selectedImage,
+        this.selectedImage.name
+      );
+    }
+
+    try {
+      console.log("request", request)
+      await this.authService.Signup(request);
+      this.router.navigate(['/login']);
+      //TODO add popup to say that account was created succesffully
+    } catch (error) {
+      console.error('Signup failed:', error);
+      //TODO add popup to say that something went wrong please try again later (could not create token & invalid request)
+    }  
+}
+
+onImageSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    return;
+  }
+
+  this.selectedImage = file;
+
+  if (this.imagePreview) {
+    URL.revokeObjectURL(this.imagePreview);
+  }
+
+  this.imagePreview = URL.createObjectURL(file);
+}
+
+removeImage(): void {
+  if (this.imagePreview) {
+    URL.revokeObjectURL(this.imagePreview);
+  }
+
+  this.selectedImage = null;
+  this.imagePreview = null;
+}
+
+selectedItems(event: Chip[]){
+  this.preferencesForm.get('preferences')?.setValue(event);
+}
+}

@@ -1,0 +1,46 @@
+.signup-form{
+    button:disabled {
+        background-color: var(--ion-color-primary);
+        color: var(--ion-color-light);
+        cursor: default;
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    ::ng-deep .mat-step-icon.mat-step-icon-state-number.mat-step-icon-selected{
+        opacity: 1 !important;
+    }
+
+    ::ng-deep .mat-step-icon.mat-step-icon-state-number{
+        background-color: var(--ion-color-secondary) !important;
+        opacity: 0.5 !important;
+    }
+
+    ::ng-deep .mat-step-icon.mat-step-icon-state-edit{
+        background-color: var(--ion-color-secondary) !important;
+        opacity: 1 !important;
+    }
+
+    ::ng-deep mat-horizontal-stepper.mat-stepper-horizontal{
+        background: none !important;
+    }
+    ::ng-deep .mat-step-header:hover,
+    ::ng-deep .mat-step-header:focus,
+    ::ng-deep .mat-step-header{
+        background: none !important;
+    }
+
+    .edit-button {
+        position: relative;
+        top: -40%;
+        right: -60%;
+    }
+
+    .image-preview{
+        height: stretch;
+    }
+
+    .finish-btn{
+        max-height: 38px;
+    }
+}

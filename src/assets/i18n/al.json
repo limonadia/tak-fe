@@ -1,4 +1,32 @@
 {
+    "authentication": {
+        "welcome": "Mirësevini!",
+        "welcome-back": "Mirëseerdhët!",
+        "already-account": "E keni një llogari? Hyni",
+        "email": "Email-i",
+        "password": "Fjalëkalimi",
+        "login": "Hyni",
+        "forgot-password": "Keni harruar fjalëkalimin?",
+        "no-account": "Nuk keni një llogari? Regjistrohuni",
+        "confirm-password": "Konfirmoni Fjalëkalimin",
+        "next": "Vazhdo",
+        "back": "Mbrapa",
+        "name": "Emri",
+        "lastname": "Mbiemri",
+        "city": "Qyteti",
+        "birthday": "Datëlindja",
+        "description": "Përshkrimi",
+        "enter-text": "Shkruani Këtu",
+        "finish": "Përfundo",
+        "select-preferences": "Zgjidhni Preferencat"
+    },
+    "errors": {
+        "email-no-exist": "Email-i nuk ekziston",
+        "incorrect-password": "Fjalëkalim i pasaktë",
+        "password-mismatch": "Fjalëkalimet nuk përputhen",
+        "invalid-email": "Email i pavlefshëm",
+        "minLength": "Minimumi 8 karaktere"
+    },
     "profile": {
         "title": "Profili",
         "language": "Gjuha",

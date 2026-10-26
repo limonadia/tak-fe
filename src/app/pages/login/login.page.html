@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-title size="large" color="primary">
+    <div class="w-full flex justify-center">{{ 'authentication.welcome-back' | translate }}</div>
+  </ion-title>
+
+  <ion-card class="rounded-2xl mt-10 py-5">
+    <ion-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <ion-input label="{{ 'authentication.email' | translate }}" type="email" placeholder="email@example.com" formControlName="email"></ion-input>
+        <ion-input type="password" label="{{ 'authentication.password' | translate }}" formControlName="password">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+        @if (showError) {
+          <ion-label color="danger">{{ errorText | translate }}</ion-label>
+        }
+        <ion-button class="w-full pt-2" [disabled]="!loginForm.valid" type="submit">{{ 'authentication.login' | translate }}</ion-button>
+        <ion-label color="primary" class="w-full flex justify-center" (click)="forgotPassword()">{{ 'authentication.forgot-password' | translate }}</ion-label>
+      </form>
+    </ion-card-content>
+  </ion-card>
+  <ion-label color="primary" class="w-full flex justify-center" (click)="signup()">{{ 'authentication.no-account' | translate }}</ion-label>
+</ion-content>

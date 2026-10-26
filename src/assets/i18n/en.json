@@ -1,4 +1,32 @@
 {
+    "authentication":{
+        "welcome": "Welcome!",
+        "welcome-back": "Welcome back!",
+        "already-account": "Already have an account? Login",
+        "email": "Email",
+        "password": "Password",
+        "login": "Login",
+        "forgot-password": "Forgot password?",
+        "no-account": "Don't have an account? Signup",
+        "confirm-password": "Confirm Password",
+        "next": "Next",
+        "back": "Back",
+        "name": "Name",
+        "lastname": "Last Name",
+        "city": "City",
+        "birthday": "Birthday",
+        "description": "Description",
+        "enter-text": "Enter Text",
+        "finish": "Finish",
+        "select-preferences": "Select Preferences"
+    },
+    "errors": {
+        "email-no-exist": "Email does not exist",
+        "incorrect-password": "Password is incorrect",
+        "password-mismatch": "Passwords do not match",
+        "invalid-email": "Invalid email",
+        "minLength": "Minimum 8 characters"
+    },
     "profile": {
         "title": "Profile",
         "language": "Language",

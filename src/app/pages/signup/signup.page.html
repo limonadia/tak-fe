@@ -1,0 +1,137 @@
+<ion-content [fullscreen]="true" class="ion-padding signup-form">
+  <ion-title size="large" color="primary">
+    <div class="w-full flex justify-center">{{ 'authentication.welcome' | translate }}</div>
+  </ion-title>
+
+  <ion-card class="rounded-2xl mt-10 py-5">
+    <ion-card-content>
+      <form [formGroup]="signupForm">
+        <mat-horizontal-stepper #stepper formArrayName="formArray" linear>
+           <ng-template matStepperIcon="number" let-index="index">
+              {{ index + 1 }}
+            </ng-template>
+
+            <ng-template matStepperIcon="edit" let-index="index">
+              {{ index + 1 }}
+            </ng-template>
+
+            <ng-template matStepperIcon="done" let-index="index">
+              {{ index + 1 }}
+            </ng-template>
+
+          <mat-step formGroupName="0" [stepControl]="formArray.at(0)">
+
+            <ion-input labelPlacement="floating" type="email" placeholder="email@example.com" formControlName="email" errorText="{{ 'errors.invalid-email' | translate }}">
+              <div slot="label">{{ 'authentication.email' | translate }} <ion-text color="danger">*</ion-text></div>
+            </ion-input>
+            <ion-input labelPlacement="floating" formControlName="password" errorText="{{ 'errors.minLength' | translate}}">
+              <div slot="label">{{ 'authentication.password' | translate }} <ion-text color="danger">*</ion-text></div>
+              <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+            </ion-input>
+            <ion-input labelPlacement="floating" formControlName="confirmPassword">
+              <div slot="label">{{ 'authentication.confirm-password' | translate }} <ion-text color="danger">*</ion-text></div>
+              <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+            </ion-input>
+
+            @if (
+              accountForm.hasError('passwordMismatch') &&
+              accountForm.get('confirmPassword')?.touched
+            ) {
+              <ion-note color="danger">
+                {{ 'errors.password-mismatch' | translate }}
+              </ion-note>
+            }
+            @if (showError) {
+              <ion-label color="danger">{{ errorText | translate }}</ion-label>
+            }
+
+            <div class="w-full flex justify-between mt-2">
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperPrevious type="button" disabled="true">
+                <ion-icon name="chevron-back-outline" color="light"></ion-icon>
+              </button>
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperNext type="button" [disabled]="!formArray.at(0).valid">
+                <ion-icon name="chevron-forward-outline" color="light"></ion-icon>
+              </button>
+            </div>
+
+          </mat-step>
+
+          <mat-step formGroupName="1" [stepControl]="formArray.at((1))">
+
+            <ion-input labelPlacement="floating" type="text" formControlName="firstName">
+              <div slot="label">{{ 'authentication.name' | translate }} <ion-text color="danger">*</ion-text></div>
+            </ion-input>
+            <ion-input labelPlacement="floating" type="text" formControlName="lastName">
+              <div slot="label">{{ 'authentication.lastname' | translate }} <ion-text color="danger">*</ion-text></div>
+            </ion-input>
+            <ion-input labelPlacement="floating" formControlName="city" #cityInput>
+              <div slot="label">{{ 'authentication.city' | translate }} <ion-text color="danger">*</ion-text></div>
+            </ion-input>
+            <ion-input labelPlacement="floating" type="date" formControlName="birthday">
+              <div slot="label">{{ 'authentication.birthday' | translate }} <ion-text color="danger">*</ion-text></div>
+            </ion-input>
+
+            <div class="w-full flex justify-between mt-2">
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperPrevious>
+                <ion-icon name="chevron-back-outline" color="light"></ion-icon>
+              </button>
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperNext type="button" [disabled]="!formArray.at(1).valid">
+                <ion-icon name="chevron-forward-outline" color="light"></ion-icon>
+              </button>
+            </div>
+
+          </mat-step>
+
+          <mat-step formGroupName="2" [stepControl]="formArray.at((2))">
+
+            <div class="image-upload flex items-center justify-center">
+              <input formControlName="profilePicture" #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)"/>
+
+              <ion-avatar (click)="fileInput.click()">
+                <img class="image-preview" alt="Silhouette of a person's head" [src]="imagePreview || 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+                <ion-button color="primary" class="edit-button" shape="round" size="small" (click)="removeImage()">
+                  <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-avatar>
+            </div>
+
+            <div class="pt-5">
+              <ion-textarea formControlName="description" form label="{{ 'authentication.description' | translate }}" labelPlacement="floating" fill="outline" 
+                [counter]="true" minlength="20" maxlength="150" placeholder="{{ 'authentication.enter-text' | translate }}">
+              </ion-textarea>
+            </div>
+
+            <div class="w-full flex justify-between mt-2">
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperPrevious>
+                <ion-icon name="chevron-back-outline" color="light"></ion-icon>
+              </button>
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperNext type="button" [disabled]="!formArray.at(2).valid">
+                <ion-icon name="chevron-forward-outline" color="light"></ion-icon>
+              </button>
+            </div>
+
+          </mat-step>
+
+          <mat-step formGroupName="3" [stepControl]="formArray.at((3))">
+
+            <div class="w-full flex justify-center color-primary pb-5">{{ 'authentication.select-preferences' | translate }}</div>
+
+            <app-multiple-selection [chips]="chips" (selectItems)="selectedItems($event)"></app-multiple-selection>
+
+            <div class="w-full flex justify-between mt-2">
+              <button class="p-3 bg-primary rounded-full flex items-center" mat-button matStepperPrevious>
+                <ion-icon name="chevron-back-outline" color="light"></ion-icon>
+              </button>
+              <button class="p-3 bg-primary rounded-full flex items-center color-light finish-btn" mat-button (click)="onSignup()" type="button" [disabled]="!formArray.at(3).valid">
+                {{ 'authentication.finish' | translate}}
+              </button>
+            </div>
+
+          </mat-step>
+
+        </mat-horizontal-stepper>
+      </form>
+    </ion-card-content>
+  </ion-card>
+  <ion-label color="primary" class="w-full flex justify-center" (click)="login()">{{ 'authentication.already-account' | translate }}</ion-label>
+</ion-content>

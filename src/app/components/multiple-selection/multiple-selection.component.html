@@ -1,0 +1,10 @@
+<div>
+  @for (chip of chips; track chip.id; let i = $index){
+    <ion-chip [color]="getColor(i)" (click)="toggleSelection(chip.id)" [ngClass]="{ 'selected': chip.selected }">
+      @if (chip.icon) {
+        <ion-icon [name]="chip.icon"></ion-icon>
+      }
+      <ion-label>{{chip.name}}</ion-label>
+    </ion-chip>
+  }
+</div>

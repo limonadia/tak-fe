@@ -65,6 +65,18 @@
 
 }
 
+.bg-primary{
+	background-color: var(--ion-color-primary);
+}
+
+.color-primary{
+	color: var(--ion-color-primary);
+}
+
+.color-light{
+	color: var(--ion-color-light);
+}
+
 :root.ios {
   --ion-background-color: var(--ion-background-color-step-50);
   --ion-toolbar-background: var(--ion-background-color);
