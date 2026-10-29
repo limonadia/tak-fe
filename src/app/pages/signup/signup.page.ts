@@ -13,6 +13,7 @@ import { Chip } from '../../models/chip.model';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { InterestsService } from '../../services/interests.service';
+import { ProfileService } from '../../services/profile.service';
 
 declare var google: any;
 @Component({
@@ -52,13 +53,15 @@ export class SignupPage implements OnInit {
   chips: Chip[] = [];
   errorText: string = '';
   showError: boolean = false;
+  maxBirthday: string = this.profileService.getMaxBirthday(18);
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private ngZone: NgZone,
     private authService: AuthService,
-    private interestsService: InterestsService ) {
+    private interestsService: InterestsService,
+    private profileService: ProfileService ) {
     addIcons({ chevronBackOutline, chevronForwardOutline, trashOutline, createOutline });
   }
 
@@ -146,7 +149,7 @@ export class SignupPage implements OnInit {
 
     if(this.selectedImage) {
       request.append(
-        'profile_picture',
+        'profilePicture',
         this.selectedImage,
         this.selectedImage.name
       );
@@ -163,34 +166,14 @@ export class SignupPage implements OnInit {
     }  
 }
 
-onImageSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  const file = input.files?.[0];
-
-  if (!file) return;
-
-  if (!file.type.startsWith('image/')) {
-    return;
-  }
-
-  if (file.size > 5 * 1024 * 1024) {
-    return;
-  }
-
-  this.selectedImage = file;
-
-  if (this.imagePreview) {
-    URL.revokeObjectURL(this.imagePreview);
-  }
-
-  this.imagePreview = URL.createObjectURL(file);
+selectImage(event: Event){
+  const imageFile = this.profileService.onImageSelected(event, this.imagePreview);
+  this.selectedImage = imageFile;
+  this.imagePreview = URL.createObjectURL(imageFile);
 }
 
-removeImage(): void {
-  if (this.imagePreview) {
-    URL.revokeObjectURL(this.imagePreview);
-  }
-
+removeImage(){
+  this.profileService.removeImage(this.imagePreview);
   this.selectedImage = null;
   this.imagePreview = null;
 }

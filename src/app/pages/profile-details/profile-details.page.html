@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="w-full flex flex-row">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+      <ion-title>{{ editProfile ?  ('profile.edit-profile' | translate) : ('profile.profile-details' | translate) }}</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding profile-details">
+  <ion-card class="rounded-2xl mt-10 py-5">
+    <ion-card-content>
+      <form [formGroup]="profileForm">
+
+        <div class="image-upload flex items-center justify-center">
+          <input formControlName="profilePicture" #fileInput type="file" accept="image/*" hidden (change)="selectImage($event)"/>
+
+          <ion-avatar (click)="!editProfile ? '' : fileInput.click()">
+            <img class="image-preview" alt="Silhouette of a person's head" [src]="imagePreview" />
+            <ion-button color="primary" class="edit-button" shape="round" size="small" (click)="removeImage()" [disabled]="!editProfile">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-avatar>
+        </div>
+
+        <div class="flex justify-between">
+          <ion-input [label]="'authentication.name' | translate" type="text" formControlName="firstName" [readonly]="!editProfile"></ion-input>
+
+          <ion-input [label]="'authentication.lastname' | translate" type="text" formControlName="lastName" [readonly]="!editProfile"></ion-input>
+        </div>
+
+        <ion-input [label]="'authentication.email' | translate" type="email" [readonly]="true" [value]="user.email"></ion-input>
+
+        <ion-input [label]="'authentication.city' | translate" formControlName="city" #cityInput [readonly]="!editProfile"></ion-input>
+
+        <ion-input [label]="'authentication.birthday' | translate" type="date" formControlName="birthday" [readonly]="!editProfile" [max]="maxBirthday"></ion-input>
+
+        <div class="pt-5">
+          <ion-textarea formControlName="description" form label="{{ 'authentication.description' | translate }}" labelPlacement="floating" fill="outline" 
+            [counter]="true" minlength="20" maxlength="150" placeholder="{{ 'authentication.enter-text' | translate }}" [readonly]="!editProfile">
+          </ion-textarea>
+        </div>
+
+        <app-badges [style.display]="editProfile ? 'none' : 'block'" [chips]="preferences"></app-badges>
+
+        <ion-label>{{ 'profile.preferences' | translate }}</ion-label>
+        <app-multiple-selection [style.display]="!editProfile ? 'none' : 'block'" [chips]="chips" (selectItems)="selectedItems($event)"></app-multiple-selection>
+
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

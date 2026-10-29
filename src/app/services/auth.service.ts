@@ -1,20 +1,14 @@
 import { Injectable } from "@angular/core";
 import { LoginRequestBody, LoginResponse, User } from "../models/user.model";
 import { ApiService } from "./api.service";
-import { email } from "@angular/forms/signals";
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService extends ApiService {
-    tokenKey: string = '';
+    tokenKey: string = 'token';
 
      constructor() {
-        super({
-            baseURL: 'http://localhost:8080/api/v1',
-            defaultHeaders: {
-                'Content-Type': 'application/json'
-            }
-        });
+        super()
     }
 
     async Signup(formData: FormData) {
@@ -28,22 +22,22 @@ export class AuthService extends ApiService {
 
         const requestBody = {
             email: userData.email,
-            password_hash: userData.password,
-            first_name: userData.firstname,
-            last_name: userData.lastname,
+            password: userData.password,
+            firstname: userData.firstname,
+            lastname: userData.lastname,
             city: userData.city,
             birthday: userData.birthday,
-            profile_picture: userData.profilePicture,
+            profilePicture: userData.profilePicture,
             description: userData.description,
             preferences: userData.preferences
         }
         const request = new FormData();
         request.append('user', JSON.stringify(requestBody));
 
-        const profilePicture = formData.get('profile_picture');
+        const profilePicture = formData.get('profilePicture');
         if (profilePicture instanceof File) {
             request.append(
-            'profile_picture',
+            'profilePicture',
             profilePicture,
             profilePicture.name
             );
@@ -55,7 +49,7 @@ export class AuthService extends ApiService {
     async Login( userData: LoginRequestBody ): Promise<LoginResponse> {
         const requestBody = {
             email: userData.email,
-            password_hash: userData.password,
+            password: userData.password,
         };
 
         return await this.post('/login', requestBody);

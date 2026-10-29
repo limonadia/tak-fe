@@ -18,7 +18,8 @@
         "description": "Përshkrimi",
         "enter-text": "Shkruani Këtu",
         "finish": "Përfundo",
-        "select-preferences": "Zgjidhni Preferencat"
+        "select-preferences": "Zgjidhni Preferencat",
+        "profile-details": "Detajet e Profilit"
     },
     "errors": {
         "email-no-exist": "Email-i nuk ekziston",
@@ -44,7 +45,8 @@
         "edit-profile": "Ndrysho Profilin",
         "select-theme": "Zgjidh Paraqitjen",
         "light": "E Lehtë",
-        "dark": "E Errët"
+        "dark": "E Errët",
+        "preferences": "Preferencat"
     },
     "discover": {
         "title": "Eksploro"

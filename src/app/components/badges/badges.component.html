@@ -1,0 +1,16 @@
+<div>
+  @for (chip of (showAll ? chips : chips.slice(0, maxLength)); track chip.id; let i = $index){
+    <ion-chip class="small-chip" [color]="getColor(i)">
+      @if (chip.icon) {
+        <ion-icon [name]="chip.icon"></ion-icon>
+      }
+      <ion-label>{{chip.name}}</ion-label>
+    </ion-chip>
+  }
+
+  @if (chips.length > maxLength) {
+    <ion-chip class="small-chip" color="medium" (click)="toggleShowAll()">
+      <ion-icon slot="icon-only" [name]="showAll ? 'close-outline' : 'ellipsis-horizontal-outline'"></ion-icon>
+    </ion-chip>
+  }
+</div>

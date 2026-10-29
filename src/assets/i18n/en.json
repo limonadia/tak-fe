@@ -44,7 +44,9 @@
         "edit-profile": "Edit Profile",
         "select-theme": "Select Theme",
         "light": "Light",
-        "dark": "Dark"
+        "dark": "Dark",
+        "profile-details": "Profile Details",
+        "preferences": "Preferences"
     }, 
     "discover": {
         "title": "Discover"

@@ -7,16 +7,15 @@ import { Interest } from "../models/chip.model";
 export class InterestsService extends ApiService {
 
      constructor() {
-        super({
-            baseURL: 'http://localhost:8080/api/v1',
-            defaultHeaders: {
-                'Content-Type': 'application/json'
-            }
-        });
+        super()
     }
 
     async getInterests(): Promise<Interest[]> {
         return await this.get('/interests');
+    }
+
+    async getPreferences(): Promise<Interest[]> {
+        return await this.get('/preferences');
     }
 
 }

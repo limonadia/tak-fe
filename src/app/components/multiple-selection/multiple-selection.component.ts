@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IonChip, IonIcon, IonLabel } from '@ionic/angular';
-import { addIcons } from 'ionicons';
-import { close, closeCircle, pin } from 'ionicons/icons';
 import { NgClass } from '@angular/common';
 import { Chip } from '../../models/chip.model';
 
@@ -16,9 +14,7 @@ export class MultipleSelectionComponent  implements OnInit {
   @Output() selectItems = new EventEmitter<Chip[]>();
   colors: string[] = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger'];
   selectedChips: Chip[] = [];
-  constructor() { 
-    addIcons({ close, closeCircle, pin });
-  }
+  constructor() {}
 
   ngOnInit() {}
 

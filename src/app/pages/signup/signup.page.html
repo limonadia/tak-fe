@@ -67,7 +67,7 @@
             <ion-input labelPlacement="floating" formControlName="city" #cityInput>
               <div slot="label">{{ 'authentication.city' | translate }} <ion-text color="danger">*</ion-text></div>
             </ion-input>
-            <ion-input labelPlacement="floating" type="date" formControlName="birthday">
+            <ion-input labelPlacement="floating" type="date" formControlName="birthday" [max]="maxBirthday">
               <div slot="label">{{ 'authentication.birthday' | translate }} <ion-text color="danger">*</ion-text></div>
             </ion-input>
 
@@ -85,7 +85,7 @@
           <mat-step formGroupName="2" [stepControl]="formArray.at((2))">
 
             <div class="image-upload flex items-center justify-center">
-              <input formControlName="profilePicture" #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)"/>
+              <input formControlName="profilePicture" #fileInput type="file" accept="image/*" hidden (change)="selectImage($event)"/>
 
               <ion-avatar (click)="fileInput.click()">
                 <img class="image-preview" alt="Silhouette of a person's head" [src]="imagePreview || 'https://ionicframework.com/docs/img/demos/avatar.svg'" />

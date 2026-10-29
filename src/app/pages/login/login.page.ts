@@ -5,6 +5,7 @@ import { IonContent, IonTitle, IonCard, IonCardContent, IonInputPasswordToggle, 
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private router: Router, 
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private profileService: ProfileService
   ) {}
 
   loginForm = this.fb.group({
@@ -54,6 +56,8 @@ export class LoginPage implements OnInit {
       }
       if (res.token) {
         this.authService.saveToken(res.token);
+        await this.profileService.getProfile();
+        this.router.navigate(['/tabs/home']);
       }
     }
   }
