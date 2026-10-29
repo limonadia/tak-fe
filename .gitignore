@@ -90,6 +90,7 @@ dist/
 .env
 .env.*
 !.env.example
+environment.local.ts
 
 # Capacitor
 android/.gradle/

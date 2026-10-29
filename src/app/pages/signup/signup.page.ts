@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonContent, IonTitle, IonCard, IonCardContent, IonLabel, IonInput, IonAvatar, IonInputPasswordToggle, IonNote, IonIcon, IonText, IonButton, IonTextarea } from '@ionic/angular';
@@ -14,8 +14,8 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
 import { InterestsService } from '../../services/interests.service';
 import { ProfileService } from '../../services/profile.service';
+import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 
-declare var google: any;
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.page.html',
@@ -23,7 +23,8 @@ declare var google: any;
   imports: [IonContent, IonTitle, CommonModule, FormsModule, IonCard, IonButton, IonAvatar, IonCardContent, MultipleSelectionComponent, ReactiveFormsModule, IonTextarea, TranslatePipe, IonText, IonLabel, MatStepperModule, IonInput, IonNote, IonInputPasswordToggle, IonIcon]
 })
 export class SignupPage implements OnInit {
-  @ViewChild('cityInput') cityInput!: IonInput;
+  @ViewChild('cityAutocompleteHost')
+  cityAutocompleteHost!: ElementRef<HTMLDivElement>;
 
   signupForm = this.fb.group({
     formArray: this.fb.array([
@@ -61,31 +62,53 @@ export class SignupPage implements OnInit {
     private ngZone: NgZone,
     private authService: AuthService,
     private interestsService: InterestsService,
-    private profileService: ProfileService ) {
+    private profileService: ProfileService,
+    private googleMapsLoader: GoogleMapsLoaderService ) {
     addIcons({ chevronBackOutline, chevronForwardOutline, trashOutline, createOutline });
   }
 
   ngOnInit() {
     this.loadChips();
   }
+  
+  async ngAfterViewInit(): Promise<void> {
+    await this.setupCityAutocomplete();
+  }
 
-  async ngAfterViewInit() {
-    await this.waitForGoogleMaps();
+  async setupCityAutocomplete(): Promise<void> {
+    try {
+      const places = await this.googleMapsLoader.loadPlaces();
+      const autocomplete = new places.PlaceAutocompleteElement();
 
-    const input = await this.cityInput.getInputElement();
+      autocomplete.includedPrimaryTypes = ['locality'];
+      autocomplete.placeholder = 'Search for a city';
 
-    const autocomplete = new google.maps.places.Autocomplete(input, {
-      types: ['(cities)'],
-      fields: ['name', 'place_id']
-    });
+      this.cityAutocompleteHost.nativeElement.replaceChildren(autocomplete);
+      autocomplete.addEventListener('gmp-select', async (event: Event) => {
+        try {
+          const placePrediction = (event as any).placePrediction;
+          if (!placePrediction) {
+            console.error('No placePrediction found on event');
+            return;
+          }
 
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace();
+          const place = placePrediction.toPlace();
+          await place.fetchFields({
+            fields: ['displayName', 'id']
+          });
 
-      this.ngZone.run(() => {
-        this.signupForm.get('formArray.1.city')?.setValue(place.name ?? '');
+          this.ngZone.run(() => {
+            this.personalForm.patchValue({
+              city: place.displayName ?? ''
+            });
+          });
+        } catch (error) {
+          console.error('City selection failed:', error);
+        }
       });
-    });
+    } catch (error) {
+      console.error('Failed to initialize Google Places:', error);
+    }
   }
 
   async loadChips(){
@@ -95,13 +118,6 @@ export class SignupPage implements OnInit {
       selected: false
     }))
   }
-
-  private async waitForGoogleMaps(): Promise<void> {
-    while (!(window as any).google?.maps?.places) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-  }
-
   login(){
     this.router.navigate(['/login']);
   }

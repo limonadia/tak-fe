@@ -41,9 +41,8 @@
           </ion-textarea>
         </div>
 
-        <app-badges [style.display]="editProfile ? 'none' : 'block'" [chips]="preferences"></app-badges>
-
         <ion-label>{{ 'profile.preferences' | translate }}</ion-label>
+        <app-badges [style.display]="editProfile ? 'none' : 'block'" [chips]="preferences"></app-badges>
         <app-multiple-selection [style.display]="!editProfile ? 'none' : 'block'" [chips]="chips" (selectItems)="selectedItems($event)"></app-multiple-selection>
 
       </form>

@@ -48,4 +48,17 @@
         width: 100%;
         height: 100%;
     }
+
+   .city-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .city-autocomplete-host {
+        display: block;
+        width: 100%;
+        min-height: 50px;
+    }
 }

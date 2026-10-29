@@ -10,7 +10,9 @@
 
   @if (chips.length > maxLength) {
     <ion-chip class="small-chip" color="medium" (click)="toggleShowAll()">
-      <ion-icon slot="icon-only" [name]="showAll ? 'close-outline' : 'ellipsis-horizontal-outline'"></ion-icon>
+      <div class="flex w-full items-center justify-center">
+        <ion-icon [name]="showAll ? 'close-outline' : 'ellipsis-horizontal-outline'"></ion-icon>
+      </div>
     </ion-chip>
   }
 </div>

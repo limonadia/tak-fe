@@ -64,9 +64,8 @@
             <ion-input labelPlacement="floating" type="text" formControlName="lastName">
               <div slot="label">{{ 'authentication.lastname' | translate }} <ion-text color="danger">*</ion-text></div>
             </ion-input>
-            <ion-input labelPlacement="floating" formControlName="city" #cityInput>
-              <div slot="label">{{ 'authentication.city' | translate }} <ion-text color="danger">*</ion-text></div>
-            </ion-input>
+            <ion-label position="stacked">City <ion-text color="danger">*</ion-text></ion-label>
+            <div #cityAutocompleteHost class="city-autocomplete-host"></div>
             <ion-input labelPlacement="floating" type="date" formControlName="birthday" [max]="maxBirthday">
               <div slot="label">{{ 'authentication.birthday' | translate }} <ion-text color="danger">*</ion-text></div>
             </ion-input>
