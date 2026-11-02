@@ -37,7 +37,7 @@ export class ProfilePage {
     addIcons({ arrowForwardOutline });
   }
 
-  ngOnInit(){
+  ionViewWillEnter(){
     this.loadUser();
   }
 

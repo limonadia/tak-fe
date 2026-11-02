@@ -35,10 +35,6 @@ export const routes: Routes = [
         loadComponent: () => import('../pages/profile-details/profile-details.page').then((m) => m.ProfileDetailsPage),
       },
       {
-        path: 'profile/edit-profile',
-        loadComponent: () => import('../pages/edit-profile/edit-profile.page').then((m) => m.EditProfilePage),
-      },
-      {
         path: 'profile/language',
         loadComponent: () => import('../pages/language/language.page').then((m) => m.LanguagePage),
       },

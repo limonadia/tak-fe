@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProfileService } from '../../services/profile.service';
+import { InterestsService } from '../../services/interests.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginPage implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router, 
     private fb: FormBuilder,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private interestsService: InterestsService
   ) {}
 
   loginForm = this.fb.group({
@@ -40,6 +42,7 @@ export class LoginPage implements OnInit {
       let res: any;
       try {
         res = await this.authService.Login(userData);
+        await this.interestsService.getInterests();
       } catch (error: any) {
         res = error.toString();
         if (res.includes("Email does not exist")){

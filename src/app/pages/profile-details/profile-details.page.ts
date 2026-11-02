@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormsModule, Validators, FormControl } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonLabel, IonToolbar, IonBackButton, IonCard, IonCardContent, IonInput, IonAvatar, IonIcon, IonButton, IonTextarea } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { createOutline } from 'ionicons/icons';
+import { createOutline, trashOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { MultipleSelectionComponent } from '../../components/multiple-selection/multiple-selection.component';
 import { ProfileService } from '../../services/profile.service';
@@ -25,12 +25,13 @@ export class ProfileDetailsPage implements OnInit {
   maxBirthday: string = this.profileService.getMaxBirthday(18);
   chips: Chip[] = [];
   preferences: Chip[] = [];
+  removeProfilePicture = false;
   constructor(private fb: FormBuilder,
     private profileService: ProfileService,
     private cdr: ChangeDetectorRef,
     private interestsService: InterestsService
   ) {
-    addIcons({ createOutline });
+    addIcons({ createOutline, trashOutline });
   }
 
   profileForm = this.fb.group({
@@ -46,29 +47,35 @@ export class ProfileDetailsPage implements OnInit {
     this.loadUser();
   }
 
-  async loadUser(){
+  async loadUser() {
     this.user = this.profileService.userObject;
 
-    if(this.profileService.profileP){
-      this.imagePreview = this.profileService.profileP;
-    }
+    this.profileService.removeImage(this.imagePreview);
+    this.imagePreview = this.profileService.profileP;
 
-    let userPreferences = await this.interestsService.getPreferences();
+    this.selectedImage = null;
+    this.removeProfilePicture = false;
+
+    const userPreferences = await this.interestsService.getPreferences();
+
     this.preferences = this.turnToChips(userPreferences);
-    const userPreferencesID = this.preferences.map((chip: Chip) => chip.id);
 
-    let interests = await this.interestsService.getInterests();
-    this.chips = this.turnToChips(interests, userPreferencesID);
+    const userPreferencesID = this.preferences.map(chip => chip.id);
+
+    this.chips = this.turnToChips(
+      this.interestsService.interests,
+      userPreferencesID
+    );
 
     this.profileForm.patchValue({
       firstName: this.user.firstname,
       lastName: this.user.lastname,
       city: this.user.city,
-      birthday: this.user.birthday?.replace("T00:00:00Z", ""),
+      birthday: this.user.birthday?.replace('T00:00:00Z', ''),
       description: this.user.description,
       preferences: userPreferencesID
-    })
-    
+    });
+     
     this.cdr.detectChanges();
   }
 
@@ -79,20 +86,83 @@ export class ProfileDetailsPage implements OnInit {
     }))
   }
 
-  selectImage(event: Event){
-    const imageFile = this.profileService.onImageSelected(event, this.imagePreview);
+  selectImage(event: Event) {
+    const imageFile = this.profileService.onImageSelected(
+      event,
+      this.imagePreview
+    );
+
+    if (!imageFile) return;
+
     this.selectedImage = imageFile;
     this.imagePreview = URL.createObjectURL(imageFile);
+    this.removeProfilePicture = false;
   }
 
   removeImage(){
     this.profileService.removeImage(this.imagePreview);
     this.selectedImage = null;
     this.imagePreview = null;
+    this.removeProfilePicture = true;
   }
 
   selectedItems(event: Chip[]){
-    // this.profileForm.get('preferences')?.setValue(event);
+    const selectedIDs = event.map(chip => chip.id);
+    this.profileForm.get('preferences')?.setValue(selectedIDs);
+    this.profileForm.get('preferences')?.markAsDirty();
+  }
+  async submit() {
+    if (this.profileForm.invalid) {
+      this.profileForm.markAllAsTouched();
+      return;
+    }
+
+    const formData = new FormData();
+
+    const profileData = {
+      firstname: this.profileForm.value.firstName,
+      lastname: this.profileForm.value.lastName,
+      city: this.profileForm.value.city,
+      birthday: this.profileForm.value.birthday,
+      description: this.profileForm.value.description,
+      preferences: this.profileForm.value.preferences,
+      removeProfilePicture: this.removeProfilePicture
+    };
+
+    formData.append('user', JSON.stringify(profileData));
+
+    if (this.selectedImage) {
+      formData.append('profilePicture', this.selectedImage);
+    }
+
+    try {
+      await this.profileService.updateProfile(formData);
+
+      this.editProfile = false;
+
+      await this.profileService.getProfile();
+      await this.loadUser();
+
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+    }
+  }
+
+  onCancel() {
+    this.profileForm.reset({
+      firstName: this.user.firstname,
+      lastName: this.user.lastname,
+      city: this.user.city,
+      birthday: this.user.birthday?.replace('T00:00:00Z', ''),
+      description: this.user.description,
+      preferences: this.preferences.map(chip => chip.id)
+    });
+
+    this.editProfile = false;
+  }
+  toggleEdit(){
+    this.editProfile = !this.editProfile;
+    this.cdr.detectChanges();
   }
 
 }

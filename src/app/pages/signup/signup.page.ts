@@ -40,7 +40,6 @@ export class SignupPage implements OnInit {
         birthday: ['', { validators: [Validators.required] }],
       }),
       this.fb.group({
-        profilePicture: [''],
         description: ['', { validators: [Validators.required, Validators.minLength(20)] }]
       }),
       this.fb.group({
@@ -112,8 +111,8 @@ export class SignupPage implements OnInit {
   }
 
   async loadChips(){
-    let interests = await this.interestsService.getInterests();
-    this.chips = interests.map(interest => ({
+    await this.interestsService.getInterests();
+    this.chips = this.interestsService.interests.map(interest => ({
       ...interest,
       selected: false
     }))
@@ -143,12 +142,13 @@ export class SignupPage implements OnInit {
   }
 
   async onSignup() {
-    if (this.signupForm.invalid){
+    if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
       return;
     }
 
     const preferences = this.preferencesForm.get('preferences')?.value.map((chip: Chip) => chip.id);
+
     const formData: User = {
       email: this.accountForm.get('email')?.value,
       password: this.accountForm.get('password')?.value,
@@ -157,33 +157,37 @@ export class SignupPage implements OnInit {
       city: this.personalForm.get('city')?.value,
       birthday: `${this.personalForm.get('birthday')?.value}T00:00:00Z`,
       description: this.aboutForm.get('description')?.value,
-      preferences: preferences
-    }
+      preferences
+    };
 
     const request = new FormData();
     request.append('user', JSON.stringify(formData));
 
-    if(this.selectedImage) {
-      request.append(
-        'profilePicture',
-        this.selectedImage,
-        this.selectedImage.name
-      );
+    if (this.selectedImage) {
+      request.append('profilePicture', this.selectedImage);
     }
 
     try {
-      console.log("request", request)
       await this.authService.Signup(request);
+
+      this.profileService.removeImage(this.imagePreview);
+      this.selectedImage = null;
+      this.imagePreview = null;
+
       this.router.navigate(['/login']);
-      //TODO add popup to say that account was created succesffully
     } catch (error) {
       console.error('Signup failed:', error);
-      //TODO add popup to say that something went wrong please try again later (could not create token & invalid request)
-    }  
-}
+    }
+  }
 
-selectImage(event: Event){
-  const imageFile = this.profileService.onImageSelected(event, this.imagePreview);
+selectImage(event: Event) {
+  const imageFile = this.profileService.onImageSelected(
+    event,
+    this.imagePreview
+  );
+
+  if (!imageFile) return;
+
   this.selectedImage = imageFile;
   this.imagePreview = URL.createObjectURL(imageFile);
 }

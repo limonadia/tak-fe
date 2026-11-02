@@ -52,11 +52,23 @@ export class ApiService {
     }
 
     protected async put<T, B>(endpoint: string, body: B): Promise<T> {
+        const isFormData = body instanceof FormData;
+
+        const headers = {
+            ...this.defaultHeaders,
+            ...this.getAuthHeaders(),
+        };
+
+        if (isFormData) {
+            delete (headers as any)['Content-Type'];
+        }
+
         const res = await fetch(`${this.baseURL}${endpoint}`, {
             method: "PUT",
-            headers: { ...this.defaultHeaders, ...this.getAuthHeaders() },
-            body: JSON.stringify(body),
+            headers,
+            body: isFormData ? body as BodyInit : JSON.stringify(body),
         });
+
         return this.handleResponse<T>(res);
     }
 

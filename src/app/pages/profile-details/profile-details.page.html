@@ -8,19 +8,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding profile-details">
-  <ion-card class="rounded-2xl mt-10 py-5">
+  <ion-card class="rounded-2xl ion-padding">
     <ion-card-content>
       <form [formGroup]="profileForm">
 
-        <div class="image-upload flex items-center justify-center">
-          <input formControlName="profilePicture" #fileInput type="file" accept="image/*" hidden (change)="selectImage($event)"/>
+        <div class="image-upload flex-col items-center justify-items-center w-full">
+          <input #fileInput type="file" accept="image/*" hidden (change)="selectImage($event)" />
 
-          <ion-avatar (click)="!editProfile ? '' : fileInput.click()">
-            <img class="image-preview" alt="Silhouette of a person's head" [src]="imagePreview" />
-            <ion-button color="primary" class="edit-button" shape="round" size="small" (click)="removeImage()" [disabled]="!editProfile">
-              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
-            </ion-button>
+          <ion-avatar>
+            <img class="image-preview" alt="Profile picture" [src]="imagePreview || 'https://ionicframework.com/docs/img/demos/avatar.svg'"/>
           </ion-avatar>
+
+          @if (editProfile) {
+            <div class="flex gap-2 w-full items-center justify-center">
+              <ion-button type="button" shape="round" (click)="fileInput.click()">
+                <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+
+              <ion-button type="button" shape="round" color="danger" (click)="removeImage()" [disabled]="!imagePreview && !selectedImage" >
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
+          }
         </div>
 
         <div class="flex justify-between">
@@ -45,6 +54,18 @@
         <app-badges [style.display]="editProfile ? 'none' : 'block'" [chips]="preferences"></app-badges>
         <app-multiple-selection [style.display]="!editProfile ? 'none' : 'block'" [chips]="chips" (selectItems)="selectedItems($event)"></app-multiple-selection>
 
+        <div class="flex items-center pt-5 justify-center w-full">
+          @if (editProfile){
+            <div class="flex w-full justify-between">
+              <ion-button (click)="onCancel()">{{ 'profile.cancel' | translate }}</ion-button>
+              <ion-button [disabled]="!profileForm.valid" (click)="submit()">{{ 'profile.submit' | translate }}</ion-button>
+            </div>
+          } @else {
+            <ion-button (click)="toggleEdit()">
+              {{ 'profile.edit-profile' | translate }}
+            </ion-button>
+          }
+        </div>
       </form>
     </ion-card-content>
   </ion-card>

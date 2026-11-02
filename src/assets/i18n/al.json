@@ -43,9 +43,12 @@
         "english": "Anglisht",
         "albanian": "Shqip",
         "edit-profile": "Ndrysho Profilin",
+        "view-profile": "Shiko Profilin",
         "select-theme": "Zgjidh Paraqitjen",
+        "submit": "Përfundo",
         "light": "E Lehtë",
         "dark": "E Errët",
+        "cancel": "Anulo",
         "preferences": "Preferencat"
     },
     "discover": {

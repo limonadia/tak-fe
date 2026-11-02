@@ -5,13 +5,18 @@ import { Interest } from "../models/chip.model";
     providedIn: 'root'
 })
 export class InterestsService extends ApiService {
+    allInterests: Interest[] = [];
 
      constructor() {
         super()
     }
 
-    async getInterests(): Promise<Interest[]> {
-        return await this.get('/interests');
+    async getInterests() {
+        this.allInterests = await this.get('/interests');
+    }
+
+    get interests(): Interest[]{
+        return this.allInterests;
     }
 
     async getPreferences(): Promise<Interest[]> {

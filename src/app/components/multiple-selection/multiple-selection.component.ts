@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { IonChip, IonIcon, IonLabel } from '@ionic/angular';
 import { NgClass } from '@angular/common';
 import { Chip } from '../../models/chip.model';
@@ -16,7 +16,14 @@ export class MultipleSelectionComponent  implements OnInit {
   selectedChips: Chip[] = [];
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['chips']) {
+      this.preselectedChips();
+    }
+  }
 
   getColor(index: number): string{
     return this.colors[index % this.colors.length];
@@ -38,4 +45,8 @@ export class MultipleSelectionComponent  implements OnInit {
     this.selectItems.emit(this.selectedChips);
   }
 
+  preselectedChips(){
+    this.selectedChips = this.chips.filter(chip => chip.selected);
+    this.selectItems.emit([...this.selectedChips]);
+  }
 }
