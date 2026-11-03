@@ -9,6 +9,8 @@ import { InterestsService } from './interests.service';
 })
 export class ProfileService extends ApiService {
     user: User = {};
+    language: string = 'en';
+    theme: string = 'light';
     constructor(private interestsService: InterestsService) {
         super()
     }
@@ -24,6 +26,38 @@ export class ProfileService extends ApiService {
 
     get userObject() {
         return this.user;
+    }
+
+    async getLanguage() {
+        this.language = await this.get('/language');
+    }
+
+    async updateLanguage(lang: string) {
+        const formData = new FormData();
+        formData.append('user', JSON.stringify({ language: lang }));
+
+        this.user = await this.put('/profile', formData);
+        await this.getLanguage();
+        return this.language;
+    }
+    get userLanguage() {
+        return this.language;
+    }
+
+    async getTheme() {
+        this.theme = await this.get('/theme');
+    }
+
+    async updateTheme(theme: string) {
+        const formData = new FormData();
+        formData.append('user', JSON.stringify({ theme }));
+
+        this.user = await this.put('/profile', formData);
+        await this.getTheme();
+        return this.theme;
+    }
+    get userTheme() {
+        return this.theme;
     }
 
     get profileP() {

@@ -4,9 +4,10 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angu
 import { IonContent, IonTitle, IonCard, IonCardContent, IonInputPasswordToggle, IonButton, IonInput, IonLabel } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ProfileService } from '../../services/profile.service';
 import { InterestsService } from '../../services/interests.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,9 @@ export class LoginPage implements OnInit {
     private router: Router, 
     private fb: FormBuilder,
     private profileService: ProfileService,
-    private interestsService: InterestsService
+    private interestsService: InterestsService,
+    private translateService: TranslateService,
+    private themeService: ThemeService
   ) {}
 
   loginForm = this.fb.group({
@@ -42,7 +45,6 @@ export class LoginPage implements OnInit {
       let res: any;
       try {
         res = await this.authService.Login(userData);
-        await this.interestsService.getInterests();
       } catch (error: any) {
         res = error.toString();
         if (res.includes("Email does not exist")){
@@ -60,6 +62,11 @@ export class LoginPage implements OnInit {
       if (res.token) {
         this.authService.saveToken(res.token);
         await this.profileService.getProfile();
+        await this.interestsService.getInterests();
+        await this.profileService.getLanguage();
+        this.translateService.use(this.profileService.userLanguage);
+        await this.profileService.getTheme();
+        this.themeService.setTheme(this.profileService.userTheme);
         this.router.navigate(['/tabs/home']);
       }
     }

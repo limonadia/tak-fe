@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton, IonRadioGroup, IonRadio, IonItem } from '@ionic/angular';
 import { ThemeMode, ThemeService } from '../../services/theme.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-theme',
@@ -14,14 +15,16 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class ThemePage implements OnInit {
 
   constructor( 
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private profileService: ProfileService
   ) { }
 
   ngOnInit() {
   }
 
-  changeTheme(mode: ThemeMode): void {
+  async changeTheme(mode: ThemeMode) {
     this.themeService.setTheme(mode);
+    await this.profileService.updateTheme(mode as ThemeMode);
   }
 
 }

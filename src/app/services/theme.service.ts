@@ -11,8 +11,8 @@ export class ThemeService {
     constructor() {
         this.applyTheme();
     }
-    setTheme(mode: ThemeMode): void {
-        this.mode = mode;
+    setTheme(mode: string): void {
+        this.mode = mode as ThemeMode;
         localStorage.setItem(this.storageKey, mode);
         this.applyTheme();
     }

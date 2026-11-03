@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonBackButton, IonRadio, IonRadioGroup, IonItem } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-language',
@@ -13,13 +14,16 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class LanguagePage implements OnInit {
 
-  constructor(public translateService: TranslateService) { }
+  constructor(public translateService: TranslateService,
+    private profileService: ProfileService
+  ) { }
 
   ngOnInit() {
   }
 
-  switchLanguage(lang: string) {
+  async switchLanguage(lang: string) {
     this.translateService.use(lang);
+    await this.profileService.updateLanguage(lang);
   }
 
 }
