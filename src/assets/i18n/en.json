@@ -49,7 +49,27 @@
         "light": "Light",
         "dark": "Dark",
         "profile-details": "Profile Details",
-        "preferences": "Preferences"
+        "preferences": "Preferences",
+        "password-confirmation": "Password Confirmation",
+        "confirm-password": "Insert Password",
+        "password": "Password",
+        "continue": "Continue",
+        "insert-new-email": "Insert New Email",
+        "email": "Email",
+        "email-success-title": "Email Sent Successfully",
+        "email-success-description": "Please click the verification link that was sent to your new email.",
+        "home": "Home",
+        "email-exists": "Email already exists.",
+        "went-wrong": "Something went wrong. Please try again later.",
+        "email-reset": "Email Reset",
+        "email-reset-success-title": "Email Reset Successful!",
+        "email-reset-success-description": "Your email has been successfully updated. You can now log in using your new email.",
+        "unauthorized": "No user id logged in at this time. Please log in and try again.",
+        "token-expired": "Token has expired. Please try again.",
+        "invalid-token": "Token is invalid. Please try again.",
+        "token-used": "Token has already been used. Please try again.",
+        "update-unsuccessful-title": "Update Unsuccessful",
+        "unsuccessful": "Unsuccessful"
     }, 
     "discover": {
         "title": "Discover"

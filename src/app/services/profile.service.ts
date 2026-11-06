@@ -15,8 +15,13 @@ export class ProfileService extends ApiService {
         super()
     }
 
-    async getProfile() {
-        this.user = await this.get('/profile');
+    async getProfile(): Promise<User> {
+        this.user = await this.get<User>('/profile');
+        return this.user;
+    }
+
+    get hasProfile(): boolean {
+        return !!this.user.id;
     }
 
     async updateProfile(body: FormData) {

@@ -83,10 +83,6 @@ export class ApiService {
     private async handleResponse<T>(res: Response): Promise<T> {
         if (!res.ok) {
             const text = await res.text();
-            if (res.status === 401) {
-                localStorage.removeItem("token");
-            }
-
             throw new Error(`API error ${res.status}: ${text}`);
         }
 

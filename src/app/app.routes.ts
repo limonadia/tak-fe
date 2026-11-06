@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { emailResetResolver } from './resolvers/email-reset.resolver';
 
 export const routes: Routes = [
   {
@@ -19,5 +20,18 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/login',
     pathMatch: 'full',
-  }
+  },
+  {
+    path: 'reset-email',
+    loadComponent: () => import('./pages/reset-email/reset-email.page').then( m => m.ResetEmailPage),
+    resolve: {
+      validToken: emailResetResolver
+    }
+  },
+  {
+    path: 'error',
+    loadComponent: () => import('./pages/error/error.page').then( m => m.ErrorPage)
+  },
+
+
 ];

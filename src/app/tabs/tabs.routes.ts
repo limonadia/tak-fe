@@ -19,6 +19,10 @@ export const routes: Routes = [
         loadComponent: () => import('../pages/blocked-users/blocked-users.page').then((m) => m.BlockedUsersPage),
       },
       {
+        path: 'profile/insert-password',
+        loadComponent: () => import('../pages/insert-password/insert-password.page').then( m => m.InsertPasswordPage)
+      },
+      {
         path: 'profile/change-email',
         loadComponent: () => import('../pages/change-email/change-email.page').then((m) => m.ChangeEmailPage),
       },

@@ -22,8 +22,8 @@ export class ProfilePage {
     { title: 'profile.theme', goTo: 'theme' },
     { title: 'profile.analytics', goTo: 'analytics' },
     { title: 'profile.blocked-users', goTo: 'blocked-users' },
-    { title: 'profile.change-email', goTo: 'change-email' },
-    { title: 'profile.change-password', goTo: 'change-password' },
+    { title: 'profile.change-email', goTo: 'insert-password', queryParams: { action: 'change-email' } },
+    { title: 'profile.change-password', goTo: 'insert-password', queryParams: { action: 'change-password' } },
     { title: 'profile.logout', goTo: 'logout' },
     { title: 'profile.delete-account', goTo: 'delete-account' }
   ]
@@ -43,20 +43,22 @@ export class ProfilePage {
 
   async loadUser(){
     try {
+      await this.profileService.getProfile();
       this.user = this.profileService.userObject;
       this.profilePicture = this.profileService.profileP;
       this.cdr.detectChanges();
     } catch (error) {
+      console.error('Failed to load profile:', error);
       //TODO popup notification unable to load user data
     }
   }
 
-  navigateTo(url: string) {
+  navigateTo(url: string, queryParams?: any) {
     if(url === 'logout' || url === 'delete-account') {
       console.log("Open modal for confirmation: " + url);
       //TODO implement logout delete flows
     } else {
-      this.router.navigate([this.router.url.toString() + '/' + url]);
+      this.router.navigate([this.router.url.toString() + '/' + url], { queryParams });
     }
   }
 

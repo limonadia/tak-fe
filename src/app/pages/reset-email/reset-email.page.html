@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="w-full flex flex-row">
+      <ion-title>{{ 'profile.email-reset' | translate }}</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card class="rounded-2xl mt-10">
+      <ion-card-header>
+        <ion-card-title class="text-center">{{ 'profile.email-reset-success-title' | translate }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-card-subtitle class="text-center">{{ 'profile.email-reset-success-description' | translate }}</ion-card-subtitle>
+        <ion-button class="w-full pt-2" (click)="toHome()">{{ 'profile.home' | translate }}</ion-button>
+      </ion-card-content>
+  </ion-card>
+</ion-content>

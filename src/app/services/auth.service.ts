@@ -55,6 +55,10 @@ export class AuthService extends ApiService {
         return await this.post('/login', requestBody);
     }
 
+    async VerifyPassword(password: string): Promise<{ valid: boolean }> {
+        return await this.post("/verify-password", { password });
+    }
+
     async Logout() {
         localStorage.removeItem(this.tokenKey);
         window.location.href = "/";
@@ -70,5 +74,13 @@ export class AuthService extends ApiService {
 
     saveToken(token: string): void {
         localStorage.setItem(this.tokenKey, token);
+    }
+
+    async sendVerificationEmail(email: string){
+       await this.post("/send-verification-email", { email });
+    }
+
+    async validateToken(token: string, type: string){
+        await this.post("/validate-token", { token, type });
     }
 }

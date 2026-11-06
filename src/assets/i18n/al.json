@@ -49,7 +49,27 @@
         "light": "E Lehtë",
         "dark": "E Errët",
         "cancel": "Anulo",
-        "preferences": "Preferencat"
+        "preferences": "Preferencat",
+        "password-confirmation": "Konfirmimi i Fjalëkalimit",
+        "confirm-password": "Vendosni Fjalëkalimin", 
+        "password": "Fjalëkalimi",
+        "continue": "Vazhdo",
+        "insert-new-email": "Vendosni Emailin e Ri",
+        "email": "Email-i",
+        "email-success-title": "Email-i u Dërgua me Sukses",
+        "email-success-description": "Ju lutem klikoni linkun e verifikimit qe u dërgua tek email-i juaj i ri.",
+        "home": "Shtëpia",
+        "email-exists": "Email-i ekziston. Provoni një tjetër.",
+        "went-wrong": "Diçka shkoi gabim. Ju lutem provoni përsëri më vonë.",
+        "email-reset": "Ndryshimi i Email-it",
+        "email-reset-success-title": "Email-i u ndryshua me sukses!",
+        "email-reset-success-description": "Email-i juaj është përditësuar. Tani mund të log-oheni me email-in e ri.",
+        "unauthorized": "Nuk ka asnjë përdorues activ. Ju lutem hyni dhe provoni përsëri.",
+        "token-expired": "Kodi ka skaduar. Ju lutem provoni përsëri.",
+        "invalid-token": "Kodi është i pavlefshëm. Ju lutem provoni përsëri.",
+        "token-used": "Kodi është përdorur njëherë. Ju lutem provoni përsëri.",
+        "update-unsuccessful-title": "Përditësimi i Pamundur",
+        "unsuccessful": "E pasuksesshme"
     },
     "discover": {
         "title": "Eksploro"

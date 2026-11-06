@@ -1,12 +1,38 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <div class="w-full flex flex-row">
-      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-title>{{ 'profile.change-email' | translate }}</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card class="rounded-2xl mt-10">
+    @if(!success){
+      <ion-card-header>
+        <ion-card-title class="text-center">{{ 'profile.insert-new-email' | translate }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="emailForm" (ngSubmit)="submit()">
+          <ion-input label="{{ 'profile.email' | translate }}" formControlName="email" type="email"></ion-input>
+          @if (errorMessage) {
+            <ion-text color="danger" class="text-center block mt-2">{{ errorMessage }}</ion-text>
+          }
+          <ion-button class="w-full pt-2" [disabled]="!emailForm.valid" type="submit">{{ 'profile.continue' | translate }}</ion-button>
+        </form>
+      </ion-card-content>
+    } @else {
+      <ion-card-header>
+        <ion-card-title class="text-center">{{ 'profile.email-success-title' | translate }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          <ion-card-subtitle class="text-center">{{ 'profile.email-success-description' | translate }}</ion-card-subtitle>
+          <ion-button class="w-full pt-2" (click)="toHome()">{{ 'profile.home' | translate }}</ion-button>
+      </ion-card-content>
+    }
+    
+  </ion-card>
 </ion-content>
