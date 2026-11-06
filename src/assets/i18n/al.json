@@ -69,7 +69,10 @@
         "invalid-token": "Kodi është i pavlefshëm. Ju lutem provoni përsëri.",
         "token-used": "Kodi është përdorur njëherë. Ju lutem provoni përsëri.",
         "update-unsuccessful-title": "Përditësimi i Pamundur",
-        "unsuccessful": "E pasuksesshme"
+        "unsuccessful": "E pasuksesshme",
+        "insert-new-password": "Vendosni Fjalëkalimin e Ri",
+        "password-success-title": "Fjalëkalimi u Ndryshua me Sukses!",
+        "password-success-description": "Fjalëkalimi juaj u përditësua me sukses. Tani mund të log-oheni me fjalëkalimin e ri."
     },
     "discover": {
         "title": "Eksploro"

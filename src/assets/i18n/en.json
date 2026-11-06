@@ -69,7 +69,10 @@
         "invalid-token": "Token is invalid. Please try again.",
         "token-used": "Token has already been used. Please try again.",
         "update-unsuccessful-title": "Update Unsuccessful",
-        "unsuccessful": "Unsuccessful"
+        "unsuccessful": "Unsuccessful",
+        "insert-new-password": "Insert New Password",
+        "password-success-title": "Password Reset Successful!",
+        "password-success-description": "Password was updated successfully. You can now login with your new password."
     }, 
     "discover": {
         "title": "Discover"

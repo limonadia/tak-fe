@@ -83,4 +83,8 @@ export class AuthService extends ApiService {
     async validateToken(token: string, type: string){
         await this.post("/validate-token", { token, type });
     }
+
+    async updatePassword(password: string){
+        await this.put("/password", { password });
+    }
 }
