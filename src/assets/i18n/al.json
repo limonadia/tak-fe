@@ -77,7 +77,12 @@
         "password-success-description": "Fjalëkalimi juaj u përditësua me sukses. Tani mund të log-oheni me fjalëkalimin e ri.",
         "password-reset": "Përditësimi i Fjalëkalimit",
         "password-reset-success-title": "Ndryshimi i Fjalëkalimit me Sukses!",
-        "password-reset-success-description": "Fjalëkalimi u ndryshua me sukses. Ju lutem hyni me fjalëkalimin e ri." 
+        "password-reset-success-description": "Fjalëkalimi u ndryshua me sukses. Ju lutem hyni me fjalëkalimin e ri.",
+        "logout-confirmation": "Jeni i sigurt se dëshironi të dilni?",
+        "confirm": "Konfirmo",
+        "delete-confirmation": "Jeni i sigurt se dëshironi ta fshini llogarinë tuaj përgjithmonë?",
+        "delete-permanent": "Për të konfirmuar fshirjen përfundimtare të llogarisë suaj, ju lutem shkruani më poshtë fjalinë:",
+        "confirm-deletion": "Fshij llogarine time"
     },
     "discover": {
         "title": "Eksploro"

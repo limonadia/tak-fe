@@ -77,7 +77,12 @@
         "email-reset-success-description": "Your email has been successfully updated. You can now log in using your new email.",
         "insert-new-password": "Insert New Password",
         "password-success-title": "Password Reset Successful!",
-        "password-success-description": "Password was updated successfully. You can now login with your new password."
+        "password-success-description": "Password was updated successfully. You can now login with your new password.",
+        "logout-confirmation": "Are you sure you want to log out?",
+        "confirm": "Confirm",
+        "delete-confirmation": "Are you sure you want to delete your account permanently?",
+        "delete-permanent": "To confirm permanent deletion of your account, please write below the sentence:",
+        "confirm-deletion": "Delete my account"
     }, 
     "discover": {
         "title": "Discover"

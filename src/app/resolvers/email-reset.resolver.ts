@@ -1,7 +1,6 @@
 import { ActivatedRouteSnapshot, ResolveFn, Router, UrlTree } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 import { inject } from "@angular/core";
-import { formatNumber } from "@angular/common";
 
 export const emailResetResolver: ResolveFn<boolean | UrlTree> = async (
     route: ActivatedRouteSnapshot

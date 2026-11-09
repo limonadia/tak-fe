@@ -61,7 +61,6 @@ export class AuthService extends ApiService {
 
     async Logout() {
         localStorage.removeItem(this.tokenKey);
-        window.location.href = "/";
     }
 
     getToken(): string | null {
@@ -90,5 +89,9 @@ export class AuthService extends ApiService {
 
     async updatePassword(password: string, token?: string){
         await this.put("/password", { password, token });
+    }
+
+    async deleteAccount(){
+        await this.delete("/profile");
     }
 }
