@@ -76,15 +76,19 @@ export class AuthService extends ApiService {
         localStorage.setItem(this.tokenKey, token);
     }
 
-    async sendVerificationEmail(email: string){
-       await this.post("/send-verification-email", { email });
+    async sendVerificationEmail(email: string, type: string){
+       await this.post("/send-verification-email", { email, type });
     }
 
-    async validateToken(token: string, type: string){
-        await this.post("/validate-token", { token, type });
+    async validateEmailToken(token: string){
+        await this.post("/validate-email-token", { token });
     }
 
-    async updatePassword(password: string){
-        await this.put("/password", { password });
+    async validatePasswordToken(token: string, userId: number){
+        await this.post("/validate-password-token", { token, userId });
+    }
+
+    async updatePassword(password: string, token?: string){
+        await this.put("/password", { password, token });
     }
 }

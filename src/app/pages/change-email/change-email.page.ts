@@ -47,14 +47,14 @@ export class ChangeEmailPage implements OnInit {
     try {
       let email = this.emailForm.value.email
       if (email) {
-        await this.authService.sendVerificationEmail(email.toString())
+        await this.authService.sendVerificationEmail(email.toString(), "email")
         this.success = true;
       }
     } catch (error: any) {
       if (error.toString().includes("Email already exists")){
-        this.errorMessage = this.translate.instant('profile.email-exists');
+        this.errorMessage = this.translate.instant('errors.email-exists');
       } else {
-        this.errorMessage = this.translate.instant('profile.went-wrong');
+        this.errorMessage = this.translate.instant('errors.went-wrong');
       }
     }
     this.cdr.detectChanges();

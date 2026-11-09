@@ -46,12 +46,12 @@ export class ChangePasswordPage implements OnInit {
     try {
       const password = this.passwordForm.get('password')?.value;
       if(password) {
-        await this.authService.updatePassword(password);
+        await this.authService.updatePassword(password, "");
         this.success = true;
       }
     } catch (error: any) {
       console.error(error);
-      this.errorMessage = this.translate.instant('profile.went-wrong');
+      this.errorMessage = this.translate.instant('errors.went-wrong');
       //TODO implement toast notification
     }
     this.cdr.detectChanges();

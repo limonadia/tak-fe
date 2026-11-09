@@ -33,3 +33,8 @@ export interface LoginRequestBody {
     email: string;
     password: string;
 }
+
+export interface ValidateTokenResponse {
+    message: string;
+    userId: number;
+}

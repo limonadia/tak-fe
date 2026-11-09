@@ -27,12 +27,12 @@ export class ErrorPage implements OnInit {
     this.reason = this.activatedRoute.snapshot.queryParamMap.get('reason')!;
 
     if (this.reason != null){
-      const errorText = `profile.${this.reason}`;
+      const errorText = `errors.${this.reason}`;
       this.translate.get(errorText).subscribe(translation => {
         this.errorDescription = translation;
       });
     } else {
-      this.translate.get('profile.went-wrong').subscribe(translation => {
+      this.translate.get('errors.went-wrong').subscribe(translation => {
         this.errorDescription = translation
       });
     }

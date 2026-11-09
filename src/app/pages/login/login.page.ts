@@ -54,6 +54,7 @@ export class LoginPage implements OnInit {
           this.errorText = "errors.incorrect-password";
           this.showError = true;
         } else {
+          console.error(error);
           //TODO add popup to say that something went wrong please try again later (could not create token & invalid request)
         }
 
@@ -73,8 +74,7 @@ export class LoginPage implements OnInit {
   }
 
   forgotPassword(){
-    console.log("forgot password")
-    //TODO implement forgot password flow
+    this.router.navigate(['/forgot-password']);
   }
 
   signup(){
